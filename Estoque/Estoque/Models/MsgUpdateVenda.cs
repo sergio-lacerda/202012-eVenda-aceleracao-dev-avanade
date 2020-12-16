@@ -8,7 +8,7 @@ namespace Estoque.Models
     public class MsgUpdateVenda
     {
         public int VendaId { get; set; }
-        public int ProdId { get; set; }
+        public int ProdCod { get; set; }
         public int ProdQtd { get; set; }
     }
 }

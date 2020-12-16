@@ -61,7 +61,7 @@ namespace Estoque.Controllers
                 await _context.SaveChangesAsync();
 
                 //Enviando mensagem de novo produto criado para atualizar em vendas
-                MsgUpdateProdutoEnvio.enviar(produto.Id, produto.qtdEstProd);
+                MsgUpdateProdutoEnvio.enviar(produto.codProd, produto.nomeProd, produto.precoProd, produto.qtdEstProd);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -104,7 +104,7 @@ namespace Estoque.Controllers
                     await _context.SaveChangesAsync();
 
                     //Enviando mensagem de produto alterado (editado) para atualizar em vendas
-                    MsgUpdateProdutoEnvio.enviar(produto.Id, produto.qtdEstProd);
+                    MsgUpdateProdutoEnvio.enviar(produto.codProd, produto.nomeProd, produto.precoProd, produto.qtdEstProd);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

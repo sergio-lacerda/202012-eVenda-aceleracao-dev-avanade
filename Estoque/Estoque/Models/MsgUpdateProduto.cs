@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 namespace Estoque.Models
 {
     public class MsgUpdateProduto
-    {
-        public int ProdId { get; set; }
+    {        
+        public int ProdCod { get; set; }
+        public string ProdNome { get; set; }
+        public decimal ProdPreco { get; set; }
         public int ProdQtd { get; set; }
     }
 }

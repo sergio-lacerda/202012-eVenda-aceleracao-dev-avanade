@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.ServiceBus;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -16,8 +17,11 @@ namespace Estoque.Models
     {
         public static void receber()
         {
-            var serviceBusClient =
-                new SubscriptionClient("<ServiceBusConnectionString>", "pagamentofeito", "PagamentoFeitoServicoB");
+            var connectionStr = "";
+            var topic = "produtoatualizado";
+            var subscription = "ProdutoUpdateParaVendas";
+
+            var serviceBusClient = new SubscriptionClient(connectionStr, topic, subscription);
 
             var messageHandlerOptions = new MessageHandlerOptions(ExceptionReceivedHandler)
             {
@@ -34,17 +38,15 @@ namespace Estoque.Models
 
             //Escrever aqui o código para processar a mensagem      
             Context _context = new Context();
-            bool ProdutoExists = _context.Produtos.Any(e => e.Id == mensagem.ProdId);
+            Produto p = new Produto 
+            {                
+                codProd = mensagem.ProdCod,
+                nomeProd = mensagem.ProdNome,
+                precoProd = mensagem.ProdPreco,
+                qtdEstProd = mensagem.ProdQtd
+            };
 
-            if (!ProdutoExists)
-            {
-                _context.Add(mensagem);
-            }
-            else
-            {
-                _context.Update(mensagem);
-            }
-            _context.SaveChangesAsync();
+            Salvar(_context, p, mensagem.ProdCod);            
 
             return Task.CompletedTask;
         }
@@ -52,6 +54,27 @@ namespace Estoque.Models
         private static Task ExceptionReceivedHandler(ExceptionReceivedEventArgs arg)
         {
             throw new NotImplementedException();
+        }
+
+        private static async void Salvar(Context c, Produto p, int ProdCod)
+        {
+            //bool ProdutoExists = c.Produtos.Any(e => e.codProd == ProdCod);
+            //var produto = c.Produtos.Any(e => e.codProd == ProdCod);
+
+            var produto = await c.Produtos.FirstOrDefaultAsync(m => m.codProd == ProdCod);
+            if (produto == null)
+            {
+                c.Add(p);
+            }
+            else
+            {
+                produto.codProd = p.codProd;
+                produto.nomeProd = p.nomeProd;
+                produto.precoProd = p.precoProd;
+                produto.qtdEstProd = p.qtdEstProd;
+                c.Update(produto);
+            }
+            await c.SaveChangesAsync();         
         }
     }
 }

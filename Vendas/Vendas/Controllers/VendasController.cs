@@ -65,7 +65,7 @@ namespace Vendas.Controllers
                 await _context.SaveChangesAsync();
 
                 //Enviando mensagem de novo produto criado para atualizar em vendas
-                MsgUpdateVendaEnvio.enviar(venda.Id, venda.ProdutoId, venda.quantidade);
+                MsgUpdateVendaEnvio.enviar(venda.Id, venda.Produto.codProd, venda.quantidade);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -110,7 +110,7 @@ namespace Vendas.Controllers
                     await _context.SaveChangesAsync();
 
                     //Enviando mensagem de novo produto criado para atualizar em vendas
-                    MsgUpdateVendaEnvio.enviar(venda.Id, venda.ProdutoId, venda.quantidade);
+                    MsgUpdateVendaEnvio.enviar(venda.Id, venda.Produto.codProd, venda.quantidade);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -10,11 +10,14 @@ namespace Estoque.Models
 {
     public static class MsgUpdateVendaEnvio
     {
-        public static void enviar(int idVenda, int idProduto, int qtdProduto)
+        public static void enviar(int idVenda, int codProduto, int qtdProduto)
         {
-            MsgUpdateVenda mensagem = new MsgUpdateVenda { VendaId = idVenda, ProdId = idProduto, ProdQtd = qtdProduto };
+            MsgUpdateVenda mensagem = new MsgUpdateVenda { VendaId = idVenda, ProdCod = codProduto, ProdQtd = qtdProduto };
 
-            var serviceBusClient = new TopicClient("chave", "Tópico");
+            var connectionStr = "";
+            var topic = "vendarealizada";
+
+            var serviceBusClient = new TopicClient(connectionStr, topic);
 
             var message = new Message(mensagem.ToJsonBytes());
             message.ContentType = "application/json";

@@ -11,8 +11,11 @@ namespace Estoque.Models
     {
         public static void receber() 
         {
-            var serviceBusClient =
-                new SubscriptionClient("<ServiceBusConnectionString>", "pagamentofeito", "PagamentoFeitoServicoB");
+            var connectionStr = "";
+            var topic = "vendarealizada";
+            var subscription = "VendaUpdateParaEstoque";
+
+            var serviceBusClient = new SubscriptionClient(connectionStr, topic, subscription);
 
             var messageHandlerOptions = new MessageHandlerOptions(ExceptionReceivedHandler)
             {
@@ -29,17 +32,7 @@ namespace Estoque.Models
 
             //Escrever aqui o código para processar a mensagem      
             Context _context = new Context();
-            bool ProdutoExists = _context.Produtos.Any(e => e.Id == mensagem.ProdId);
-
-            if (ProdutoExists)            
-            {
-                var prod = _context.Produtos.FirstOrDefault(m => m.Id == mensagem.ProdId);
-
-                //Baixando o estoque (atual - qtd. vendida)
-                mensagem.ProdQtd = prod.qtdEstProd - mensagem.ProdQtd;
-                _context.Update(mensagem);
-                _context.SaveChangesAsync();
-            }            
+            Salvar(_context, mensagem.ProdCod, mensagem.ProdQtd);
 
             return Task.CompletedTask;
         }
@@ -47,6 +40,19 @@ namespace Estoque.Models
         private static Task ExceptionReceivedHandler(ExceptionReceivedEventArgs arg)
         {
             throw new NotImplementedException();
+        }
+
+        private static async void Salvar(Context c, int ProdCod, int qtd)
+        {
+            var prod = c.Produtos.FirstOrDefault(m => m.codProd == ProdCod);
+
+            if (prod != null)
+            {
+                //Baixando o estoque (atual - qtd. vendida)
+                prod.qtdEstProd -= qtd;
+                c.Update(prod);
+                await c.SaveChangesAsync();
+            }
         }
     }        
 }
