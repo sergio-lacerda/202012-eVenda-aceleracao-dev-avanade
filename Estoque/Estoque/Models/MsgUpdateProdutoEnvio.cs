@@ -21,7 +21,7 @@ namespace Estoque.Models
                 ProdQtd = qtdProduto 
             };
 
-            var connectionStr = "";
+            var connectionStr = Utils.AzureConnStr;
             var topic = "produtoatualizado";
 
             var serviceBusClient = new TopicClient(connectionStr, topic);

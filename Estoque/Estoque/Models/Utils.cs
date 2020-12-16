@@ -26,6 +26,8 @@ namespace Estoque.Models
             Converters = new JsonConverter[] { new StringEnumConverter() }
         };
 
+        public static readonly string AzureConnStr = "";
+
         /// <summary>
         /// Converts the object to json bytes.
         /// </summary>

@@ -11,7 +11,7 @@ namespace Estoque.Models
     {
         public static void receber() 
         {
-            var connectionStr = "";
+            var connectionStr = Utils.AzureConnStr;
             var topic = "vendarealizada";
             var subscription = "VendaUpdateParaEstoque";
 

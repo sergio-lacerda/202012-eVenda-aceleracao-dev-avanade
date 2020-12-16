@@ -14,7 +14,7 @@ namespace Estoque.Models
         {
             MsgUpdateVenda mensagem = new MsgUpdateVenda { VendaId = idVenda, ProdCod = codProduto, ProdQtd = qtdProduto };
 
-            var connectionStr = "";
+            var connectionStr = Utils.AzureConnStr; 
             var topic = "vendarealizada";
 
             var serviceBusClient = new TopicClient(connectionStr, topic);

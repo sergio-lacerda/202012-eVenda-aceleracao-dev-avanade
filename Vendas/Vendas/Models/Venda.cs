@@ -25,7 +25,7 @@ namespace Vendas.Models
 
         [Display(Name = "Preço")]
         [Required(ErrorMessage = "Informe o preço do produto!")]
-        [Range(0, 99999, ErrorMessage = "Valor fora da faixa!")]
+        [Range(0, 99999, ErrorMessage = "Valor fora da faixa!")]        
         public decimal preco { get; set; }
     }
 }
