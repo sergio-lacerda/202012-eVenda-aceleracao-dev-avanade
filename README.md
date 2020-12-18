@@ -8,7 +8,23 @@ Este projeto foi desenvolvido no Visual Studio 2019, segundo o modelo de aplica�
 
 ## Configuração
 
-Para que o projeto funcione corretamente, é importante configurar previamente os Tópicos e Subscrições utilizadas no Azure Service Bus, obtendo uma string de conexão com esse ambiente. Essa string de conexão deve ser inserida em ambos os módulos (Estoque e Vendas), nos arquivos das classes Util.cs, linha 29, completando a instrução *__public static readonly string AzureConnStr = "Insira sua string de conexão aqui";__*
+Para que o projeto funcione corretamente, é importante configurar previamente os Tópicos e Subscrições utilizadas no Azure Service Bus, obtendo uma string de conexão com esse ambiente. 
+
+#### Tópicos e Subscrições Azure Service Bus
+
+###### Mensagem de Estoque para Venda
+
+- **Tópico**: produtoatualizado
+- **Subscrição**: ProdutoUpdateParaVendas
+
+###### Mensagem de Venda para Estoque
+
+- *Tópico*: vendarealizada
+- *Subscrição*: VendaUpdateParaEstoque
+
+#### Tópicos e Subscrições Azure Service Bus
+
+Após configurar seu recurso Azure Service Bus, otenha a respectiva string de conexão e insira a mesma em ambos os módulos (Estoque e Vendas), nos arquivos das classes Util.cs, linha 29, completando a instrução *__public static readonly string AzureConnStr = "Insira sua string de conexão aqui";__*
 
 ## Licença
 
