@@ -19,8 +19,8 @@ Para que o projeto funcione corretamente, é importante configurar previamente o
 
 ###### Mensagem de Venda para Estoque
 
-- *Tópico*: vendarealizada
-- *Subscrição*: VendaUpdateParaEstoque
+- **Tópico**: vendarealizada
+- **Subscrição**: VendaUpdateParaEstoque
 
 #### Tópicos e Subscrições Azure Service Bus
 
